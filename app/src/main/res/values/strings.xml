@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">imt3673_assignment1</string>
+    <string name="text_menu_main_title">Simple sidescroller</string>
+    <string name="text_button_playgame">Play game</string>
+    <string name="text_button_options">Options</string>
+    <string name="text_button_exitgame">Exit game</string>
 </resources>
