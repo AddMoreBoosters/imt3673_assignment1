@@ -38,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_button_exitgame"
+        android:onClick="CloseApp"
         tools:layout_editor_absoluteX="144dp"
         tools:layout_editor_absoluteY="341dp"
         android:padding="@dimen/button_padding"/>
