@@ -1,5 +1,6 @@
 package com.example.herma.imt3673_assignment1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,5 +16,11 @@ public class MainActivity extends AppCompatActivity {
     public void CloseApp(View view)
     {
         System.exit(0);
+    }
+
+    public void GoToSettings(View view)
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }
