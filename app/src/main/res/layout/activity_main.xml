@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout
+
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.herma.imt3673_assignment1.MainActivity">
+    tools:context="com.example.herma.imt3673_assignment1.MainActivity"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_menu_main_title"
+        tools:layout_editor_absoluteX="133dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:textSize="20sp"
+        android:paddingTop="20dp"
+        android:paddingBottom="50dp"/>
 
     <Button
-        android:id="@+id/omg"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/text_button_playgame"
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="124dp"
+        android:padding="@dimen/button_padding"/>
 
-</RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_button_options"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="220dp"
+        android:padding="@dimen/button_padding"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_button_exitgame"
+        android:onClick="CloseApp"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="341dp"
+        android:padding="@dimen/button_padding"/>
+
+</LinearLayout>
+
