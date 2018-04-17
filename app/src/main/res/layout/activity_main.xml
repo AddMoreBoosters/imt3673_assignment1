@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_button_playgame"
+        android:onClick="StartGame"
         tools:layout_editor_absoluteX="142dp"
         tools:layout_editor_absoluteY="124dp"
         android:padding="@dimen/button_padding"/>
