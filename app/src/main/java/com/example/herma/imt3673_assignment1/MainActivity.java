@@ -7,10 +7,12 @@ import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApi;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
     
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void StartGame(View view)
     {
-        
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
     }
 }
