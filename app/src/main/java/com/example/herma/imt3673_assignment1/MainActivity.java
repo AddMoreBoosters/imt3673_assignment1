@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         // buttons
-        findViewById(R.id.close_button).setOnClickListener(this);
+       // findViewById(R.id.close_button).setOnClickListener(this);
         findViewById(R.id.go_to_settings).setOnClickListener(this);
-    }
+   // }
 
-/*
+
         // Views
         mStatusTextView = findViewById(R.id.status);
 
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
-    }*/
+    }
 
     private void closeApp()
     {
@@ -174,15 +174,15 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-          /*  case R.id.sign_in_button:
-               // signIn();
+            case R.id.sign_in_button:
+               signIn();
                 break;
             case R.id.sign_out_button:
-               // signOut();
+               signOut();
                 break;
             case R.id.disconnect_button:
-               // revokeAccess();
-                break;*/
+               revokeAccess();
+                break;
             case R.id.close_button:
                 closeApp();
                 break;
