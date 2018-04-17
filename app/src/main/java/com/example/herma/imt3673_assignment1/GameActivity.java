@@ -2,146 +2,123 @@ package com.example.herma.imt3673_assignment1;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener2;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Display;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**
- * As of now this is just Lab 3.
+ * Example activity that contains a view that reads accelerometer sensor input and
+ * translates a circle based on the changes.
  */
+public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
-public class GameActivity extends AppCompatActivity implements SensorEventListener2
-{
-    private float xPos, xAccel, xVel = 0.0f;
-    private float yPos, yAccel, yVel = 0.0f;
-    private float xMax, yMax;
-    private Bitmap ball;
     private SensorManager sensorManager;
-    private Vibrator vibrator;
-    private ToneGenerator tg;
+    private Sensor accelerometer;
+    private GameView gameView = null;
+    private Vibrator vb;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        BallView ballView = new BallView(this);
-        setContentView(ballView);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        vb = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        Point size = new Point();
-        Display display = getWindowManager().getDefaultDisplay();
-        display.getSize(size);
-        xMax = (float) size.x - 100;
-        yMax = (float) size.y - 235;
-        xPos = xMax / 2.0f;
-        yPos = yMax / 2.0f;
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        gameView = new GameView(this);
+
+        //Set our content to a view, not like the traditional setting to a layout
+        setContentView(gameView);
     }
 
     @Override
-    protected void onStart()
-    {
-        //  Register the listener
-        super.onStart();
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
-    protected void onStop()
-    {
-        //  Unregister the listener before freeing up space
+    protected void onPause() {
+        super.onPause();
         sensorManager.unregisterListener(this);
-        super.onStop();
     }
 
     @Override
-    public void onFlushCompleted(Sensor sensor)
-    {
-        //  Do nothing
-    }
+    public void onAccuracyChanged(Sensor arg0, int arg1) { }
 
     @Override
-    public void onSensorChanged(SensorEvent sensorEvent)
-    {
-        //  If the sensor changed was the rotation vector, retrieve data from it
-        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-        {
-            xAccel = -sensorEvent.values[1];
-            yAccel = -sensorEvent.values[0];
-            updateBall();
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            gameView.onSensorEvent(event);
         }
     }
 
-    private void updateBall()
-    {
-        final float velocityRetained = 0.7f;    //  How much velocity is kept when hitting walls
-        float frameTime = 0.666f;
-        xVel += (xAccel * frameTime);
-        yVel += (yAccel * frameTime);
+    public class GameView extends View {
 
-        float xS = (xVel / 2) * frameTime;
-        float yS = (yVel / 2) * frameTime;
+        private final Paint black;
+        private final Paint cyan;
+        private int viewWidth;
+        private int viewHeight;
 
-        xPos -= xS;
-        yPos -= yS;
+        private Ball ball;
+        private Rectangle rect;
 
-        //  Bounce on walls, losing a little speed
-        if ((xPos > xMax && xVel < 0) || (xPos < 0 && xVel > 0))
-        {
-            xVel *= -velocityRetained;
-            giveFeedback();
-        }
 
-        if ((yPos > yMax && yVel < 0) || (yPos < 0 && yVel > 0))
-        {
-            yVel *= -velocityRetained;
-            giveFeedback();
-        }
-    }
-
-    private void giveFeedback()
-    {
-        vibrator.vibrate(200);
-        tg.startTone(ToneGenerator.TONE_PROP_BEEP);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i)
-    {
-        //  Do nothing
-    }
-
-    private class BallView extends View
-    {
-
-        public BallView(Context context)
-        {
+        public GameView(Context context) {
             super(context);
-            Bitmap ballSrc = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
-            final int dstWidth = 100;
-            final int dstHeight = 100;
-            ball = Bitmap.createScaledBitmap(ballSrc, dstWidth, dstHeight, true);
+
+
+            black = new Paint();
+            black.setColor(Color.BLACK);
+            cyan = new Paint();
+            cyan.setColor(Color.CYAN);
+
+            ball = new Ball(viewWidth/2, viewHeight/2, 50, black);
+            rect = new Rectangle(5, 10, 50, 50, cyan);
+
+
         }
 
         @Override
-        protected void onDraw(Canvas canvas)
-        {
-            canvas.drawBitmap(ball, xPos, yPos, null);
+        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+            super.onSizeChanged(w, h, oldw, oldh);
+            viewWidth = w;
+            viewHeight = h;
+            ball.x = viewWidth/2;
+            ball.y = viewHeight/2;
+        }
+
+
+
+
+        public void onSensorEvent (SensorEvent event) {
+
+            ball.update((int) event.values[0], (int) event.values[1] , viewWidth, viewHeight);
+            rect.update(0.66f);
+
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            rect.draw(canvas);
+            ball.draw(canvas);
             invalidate();
         }
     }
