@@ -86,7 +86,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
 
             black = new Paint();
-            black.setColor(Color.BLACK);
+            black.setColor(Color.RED);
             cyan = new Paint();
             cyan.setColor(Color.CYAN);
 
