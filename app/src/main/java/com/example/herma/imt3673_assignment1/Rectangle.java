@@ -11,10 +11,13 @@ import android.graphics.Paint;
 public class Rectangle {
     public int xPos;
     public int yPos;
-    public final int yVel;
+    private int yVel;
     public int width;
     public int height;
+    private int mod;
     public final Paint colour;
+
+
 
     public Rectangle(int x, int y, int wd, int ht, Paint col){
         this.xPos = x;
@@ -23,15 +26,23 @@ public class Rectangle {
         this.width = wd;
         this.height = ht;
         this.colour = col;
+        this.mod = 2;
     }
 
     public void update(float frameTime){
         this.yPos += yVel;
     }
 
-    public void reset(){
-        this.xPos = 0;
-        // this.yPos = rand screen height
+    public void increaseSpeed(int spd){
+        if(spd % mod == 0) {
+            yVel++;
+        }
+    }
+
+    public void reset(int vw, int vh){
+        this.xPos = vw;
+        this.yPos = vh;
+
     }
 
     public void draw(Canvas canvas){

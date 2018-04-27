@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.Random;
+
 /**
  * Example activity that contains a view that reads accelerometer sensor input and
  * translates a circle based on the changes.
@@ -76,9 +78,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         private final Paint cyan;
         private int viewWidth;
         private int viewHeight;
+        private Random rand;
 
         private Ball ball;
         private Rectangle rect;
+        private boolean firstGame;
 
 
         public GameView(Context context) {
@@ -89,9 +93,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             black.setColor(Color.RED);
             cyan = new Paint();
             cyan.setColor(Color.CYAN);
-
+            rand = new Random();
+            firstGame = true;
             ball = new Ball(viewWidth/2, viewHeight/2, 50, black);
-            rect = new Rectangle(5, 10, 50, 50, cyan);
+            rect = new Rectangle(viewWidth/2, 0, 50, 50, cyan);
 
 
         }
@@ -111,8 +116,16 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         public void onSensorEvent (SensorEvent event) {
 
             ball.update((int) event.values[0], (int) event.values[1] , viewWidth, viewHeight);
+
+            if(rect.yPos > viewHeight && !firstGame) {
+                int n = rand.nextInt(viewWidth - 50 + 1);
+                rect.reset(n, 0);
+                rect.increaseSpeed(2);
+            }
+
             rect.update(0.66f);
 
+            firstGame = false;
         }
 
         @Override
