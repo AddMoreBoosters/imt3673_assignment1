@@ -64,4 +64,9 @@ public class Ball {
     }
 
     public int getScore(){ return score; }
+
+    public void reset(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 }

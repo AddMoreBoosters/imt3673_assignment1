@@ -117,6 +117,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
             ball.update((int) event.values[0], (int) event.values[1] , viewWidth, viewHeight);
 
+            // the game crashes here on first frame. Hence !firstGame
             if(rect.yPos > viewHeight && !firstGame) {
                 int n = rand.nextInt(viewWidth - 50 + 1);
                 rect.reset(n, 0);
@@ -125,7 +126,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             }
 
             if(ballCollideBox(ball, rect)){
-                rect.reset(100, 100);
+                int n = rand.nextInt(viewWidth - 50 + 1);
+                rect.reset(n, 0);
+                ball.reset(viewWidth/2, viewHeight-ball.radius);
                 ball.decreaseLives();
             }
 
