@@ -10,7 +10,9 @@ import android.graphics.Paint;
 public class Ball {
     public int x;
     public int y;
-    private final int radius;
+    private int score;
+    private int lives;
+    public final int radius;
     private final Paint colour;
 
 
@@ -20,6 +22,8 @@ public class Ball {
         this.y = y;
         this.radius = rad;
         this.colour = col;
+        this.score = 0;
+        this.lives = 3;
     }
 
     public void draw(Canvas canvas){
@@ -49,4 +53,15 @@ public class Ball {
         }
     }
 
+    public void increaseScore(){
+        score++;
+    }
+
+    public void decreaseLives(){
+        if(lives > 0) {
+            lives--;
+        }
+    }
+
+    public int getScore(){ return score; }
 }

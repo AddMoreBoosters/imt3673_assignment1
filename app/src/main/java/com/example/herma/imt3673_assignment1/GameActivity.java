@@ -79,7 +79,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         private int viewWidth;
         private int viewHeight;
         private Random rand;
-
         private Ball ball;
         private Rectangle rect;
         private boolean firstGame;
@@ -113,7 +112,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
 
 
-
+        // HEART OF THE GAME
         public void onSensorEvent (SensorEvent event) {
 
             ball.update((int) event.values[0], (int) event.values[1] , viewWidth, viewHeight);
@@ -122,6 +121,12 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 int n = rand.nextInt(viewWidth - 50 + 1);
                 rect.reset(n, 0);
                 rect.increaseSpeed(2);
+                ball.increaseScore();
+            }
+
+            if(ballCollideBox(ball, rect)){
+                rect.reset(100, 100);
+                ball.decreaseLives();
             }
 
             rect.update(0.66f);
@@ -134,6 +139,25 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             rect.draw(canvas);
             ball.draw(canvas);
             invalidate();
+        }
+
+
+        // collision check (CIRCULAR)
+        private boolean ballCollideBox(Ball b, Rectangle r){
+            int closeX = b.x;
+            int closeY = b.y;
+
+            // where are the closest X and Y on the rect to the ball?
+            if(b.x < r.xPos)         closeX = r.xPos;
+            if(b.x > r.xPos+r.width) closeX = (r.xPos + r.width);
+            if(b.y < r.yPos)         closeY = r.yPos;
+            if(b.y > r.yPos+r.height) closeY = (r.yPos + r.height);
+
+            double dis = Math.sqrt( ( (closeX - b.x)*(closeX - b.x) ) +
+                                    ( (closeY - b.y)*(closeY - b.y) ) );
+            if(dis < b.radius) return true;
+
+            return false;
         }
     }
 }
