@@ -87,7 +87,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         public GameView(Context context) {
             super(context);
-
+            viewWidth = 400;
+            viewHeight = 400;
 
             black = new Paint();
             black.setColor(Color.RED);
