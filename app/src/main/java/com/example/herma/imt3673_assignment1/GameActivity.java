@@ -12,6 +12,7 @@ import android.hardware.SensorManager;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -127,6 +128,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
             if(ballCollideBox(ball, rect)){
                 ball.decreaseLives();
+                vb.vibrate(200);
 
                 if(ball.isDead())
                 {
