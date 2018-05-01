@@ -126,10 +126,18 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             }
 
             if(ballCollideBox(ball, rect)){
-                int n = rand.nextInt(viewWidth - 50 + 1);
-                rect.reset(n, 0);
-                ball.reset(viewWidth/2, viewHeight-ball.radius);
                 ball.decreaseLives();
+
+                if(ball.isDead())
+                {
+                    finish();
+                }
+                else
+                {
+                    int n = rand.nextInt(viewWidth - 50 + 1);
+                    rect.reset(n, 0);
+                    ball.reset(viewWidth/2, viewHeight-ball.radius);
+                }
             }
 
             rect.update(0.66f);
