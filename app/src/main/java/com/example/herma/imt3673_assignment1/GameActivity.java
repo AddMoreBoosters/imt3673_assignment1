@@ -1,6 +1,8 @@
 package com.example.herma.imt3673_assignment1;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -132,6 +134,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
                 if(ball.isDead())
                 {
+                    int score = ball.getScore();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("score", score);
+                    setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
                 else
