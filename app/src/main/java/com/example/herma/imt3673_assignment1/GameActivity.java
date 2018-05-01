@@ -161,10 +161,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             int closeY = b.y;
 
             // where are the closest X and Y on the rect to the ball?
-            if(b.x < r.xPos)         closeX = r.xPos;
-            if(b.x > r.xPos+r.width) closeX = (r.xPos + r.width);
-            if(b.y < r.yPos)         closeY = r.yPos;
-            if(b.y > r.yPos+r.height) closeY = (r.yPos + r.height);
+            if(b.x < r.xPos)         closeX = (int)r.xPos;
+            if(b.x > r.xPos+r.width) closeX = (int)(r.xPos + r.width);
+            if(b.y < r.yPos)         closeY = (int)r.yPos;
+            if(b.y > r.yPos+r.height) closeY = (int)(r.yPos + r.height);
 
             double dis = Math.sqrt( ( (closeX - b.x)*(closeX - b.x) ) +
                                     ( (closeY - b.y)*(closeY - b.y) ) );

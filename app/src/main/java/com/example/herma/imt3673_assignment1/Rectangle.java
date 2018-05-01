@@ -9,9 +9,9 @@ import android.graphics.Paint;
  */
 
 public class Rectangle {
-    public int xPos;
-    public int yPos;
-    private int yVel;
+    public float xPos;
+    public float yPos;
+    private float yVel;
     public int width;
     public int height;
     private int mod;
@@ -22,7 +22,7 @@ public class Rectangle {
     public Rectangle(int x, int y, int wd, int ht, Paint col){
         this.xPos = x;
         this.yPos = y;
-        this.yVel = 1;
+        this.yVel = 4.0f;
         this.width = wd;
         this.height = ht;
         this.colour = col;
@@ -35,13 +35,13 @@ public class Rectangle {
 
     public void increaseSpeed(int spd){
         if(spd % mod == 0) {
-            yVel++;
+            yVel += 0.3f;
         }
     }
 
     public void reset(int vw, int vh){
-        this.xPos = vw;
-        this.yPos = vh;
+        this.xPos = (float)vw;
+        this.yPos = (float)vh;
 
     }
 
