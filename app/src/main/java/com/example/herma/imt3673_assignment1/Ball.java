@@ -63,6 +63,11 @@ public class Ball {
         }
     }
 
+    public boolean isDead()
+    {
+        return (lives == 0);
+    }
+
     public int getScore(){ return score; }
 
     public void reset(int x, int y){
